@@ -14,7 +14,7 @@ print(book + tablet)
 
 GPA = 86
 Recommendation = True
-print(GPA) = 85 and Recommendation = True
+print(GPA) = 85 and Recommendation == True
 
 Tax = 0.07
 shoes = 200.00

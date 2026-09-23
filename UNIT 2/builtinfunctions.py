@@ -24,3 +24,14 @@ print(int(price))
 # cannot transform strings into numbers
 
 print(int(true)
+
+# float() - a function that will change any datatype
+# passed into it, into float/ decimal number
+
+num2 = input("type in a number")
+# input always returns a string
+print(9 + float(num2))
+
+1 == 0
+" follow the yellow brick road"
+
