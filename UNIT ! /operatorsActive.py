@@ -24,3 +24,7 @@ print(shoes + tax)
 Cart = 98.07
 amountToGetDiscount = 100.00
 print(cart >= amountToGetDiscount)
+
+GPA = 89
+Credits = True
+print(GPA) = 89 and Credits == True

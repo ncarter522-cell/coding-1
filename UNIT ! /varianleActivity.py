@@ -51,15 +51,6 @@ usernamefornewinstagramaccounts = 0 # no snake case
 
 username_for_new_instagram_accounts = 0 # with snake case
 
-
-
-
-
-
-
-
-
-
 # Pascal Case - pascal case is the same as camel case EXCEPT
 # all words start with a capital letter
 # its called pascal case bc its the same way we write first/ last names
