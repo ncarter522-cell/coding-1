@@ -1,1 +1,13 @@
 Mechanics: You tap (Your spacebar) or press your upper arrow. Dynamics: There's not really any room for any creativity and discovery because all you do is dodge the pipes by clicking your spacebar. Aesthetics: The game is colorful with a yellow bird trying to make it to the end.
+
+
+1. Im making a game that's a bit similar to mortal kombat and injustice.
+it will have a few mechanics thats from injustice and mortal kombat but most of the things inside the game will be different, the game will be based off of a fighting/action type of genre.
+
+2. I want them to complete bosses, fight each other in pvp face offs, do alot of pvp quests, and other pvp gamemodes.
+
+3. When the user completes the action successfully they will earn rewards to get better gear, exp, and items to level up, craft other things to fight stronger opponets.
+
+4. If the user fails to complete their quests/objective the player will be penelized depending on the quests/objective difficulty.
+
+5.Three games that are similar are
