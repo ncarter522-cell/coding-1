@@ -1,13 +1,298 @@
-import numbers
+import pygame
+import random
 
+# Initialize Pygame
+pygame.init()
 
-def countdown(start):
-    number = []
-    while start > 0:
- 
-     number.append(start)
-     start + 1
-     return numbers
+# Screen dimensions
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Space Invaders: Evolution & Loot")
 
-(countdown(5))
+# Colors
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+CYAN = (0, 255, 255)
+YELLOW = (255, 255, 0)
+GOLD = (255, 215, 0)
+BLACK = (0, 0, 0)
 
+clock = pygame.time.Clock()
+
+# --- GAME STATE SETUP ---
+game_state = "START_SCREEN"  # Can be "START_SCREEN", "TUTORIAL", "PLAYING", or "SHOP"
+
+# Player setup
+player_x = 370
+player_y = 520
+player_x_change = 0
+player_speed = 5
+
+# Alien setup
+alien_x = random.randint(100, 700)
+alien_y = 50
+alien_x_change = 3
+
+# Bullet setup
+bullet_x = 0
+bullet_y = 520
+bullet_state = "ready"
+bullet_speed = 10
+bullet_max_range = 600  # Shooting range limit
+
+# Progression & Economy variables
+kill_count = 0
+power_tier = 0
+coins = 0
+revives = 0
+last_reward_text = "Open a chest to get rewards!"
+
+# EMP / Stun variables
+emp_active = False
+emp_timer = 0
+EMP_DURATION = 18 * 60  # 18 seconds
+emp_cooldown = 0
+
+# Balance Power Down variables
+GAME_TIME_LIMIT = 60 * 60  # 60 seconds at 60 FPS
+time_left = GAME_TIME_LIMIT
+kills_at_checkpoint = 0
+is_penalized = False
+
+font = pygame.font.Font(None, 36)
+title_font = pygame.font.Font(None, 56)
+small_font = pygame.font.Font(None, 26)
+tiny_font = pygame.font.Font(None, 22)
+
+def draw_player(x, y):
+    pygame.draw.rect(screen, GREEN, (x, y, 50, 20))
+
+def draw_alien(x, y):
+    pygame.draw.rect(screen, RED, (x, y, 40, 30))
+
+def draw_bullet(x, y):
+    global bullet_state
+    bullet_state = "fire"
+    pygame.draw.rect(screen, WHITE, (x + 20, y, 10, 20))
+
+# Game Loop
+running = True
+while running:
+    screen.fill(BLACK)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+        if event.type == pygame.KEYDOWN:
+            # --- START SCREEN CONTROLS ---
+            if game_state == "START_SCREEN":
+                if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                    game_state = "PLAYING"
+                    time_left = GAME_TIME_LIMIT
+                elif event.key == pygame.K_t:
+                    game_state = "TUTORIAL"
+
+            # --- TUTORIAL CONTROLS ---
+            elif game_state == "TUTORIAL":
+                if event.key == pygame.K_RETURN or event.key == pygame.K_ESCAPE:
+                    game_state = "START_SCREEN"
+
+            # --- PLAYING CONTROLS ---
+            elif game_state == "PLAYING":
+                if event.key == pygame.K_LEFT:
+                    player_x_change = -player_speed
+                if event.key == pygame.K_RIGHT:
+                    player_x_change = player_speed
+                if event.key == pygame.K_SPACE:
+                    if bullet_state == "ready":
+                        bullet_x = player_x
+                        draw_bullet(bullet_x, bullet_y)
+                
+                # EMP Trigger
+                if event.key == pygame.K_e and emp_cooldown == 0 and kill_count >= 20:
+                    emp_active = True
+                    emp_timer = EMP_DURATION
+                    emp_cooldown = 600
+
+                # Open Chest Shop
+                if event.key == pygame.K_c:
+                    game_state = "SHOP"
+
+            # --- SHOP CONTROLS ---
+            elif game_state == "SHOP":
+                if event.key == pygame.K_c or event.key == pygame.K_ESCAPE:
+                    game_state = "PLAYING"
+                
+                # Buy Mystery Chest (Cost: 50 coins)
+                if event.key == pygame.K_1:
+                    if coins >= 50:
+                        coins -= 50
+                        reward_choice = random.choice(["speed", "range", "revive"])
+                        if reward_choice == "speed":
+                            player_speed += 2
+                            last_reward_text = "Reward: +2 Speed Boost!"
+                        elif reward_choice == "range":
+                            bullet_max_range += 100
+                            last_reward_text = "Reward: +100 Shooting Range!"
+                        elif reward_choice == "revive":
+                            revives += 1
+                            last_reward_text = "Reward: +1 Revive Acquired!"
+                    else:
+                        last_reward_text = "Not enough coins! Need 50."
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                player_x_change = 0
+
+    # ==================== START SCREEN LOGIC ====================
+    if game_state == "START_SCREEN":
+        title_text = title_font.render("SPACE INVADERS: EVOLUTION", True, GREEN)
+        screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, 120))
+
+        running_text = font.render("Game is running...", True, WHITE)
+        screen.blit(running_text, (SCREEN_WIDTH // 2 - running_text.get_width() // 2, 210))
+
+        prompt_text = font.render("Press ENTER or SPACEBAR to Play", True, CYAN)
+        screen.blit(prompt_text, (SCREEN_WIDTH // 2 - prompt_text.get_width() // 2, 275))
+
+        tutorial_prompt = font.render("Press [T] to view the Tutorial", True, YELLOW)
+        screen.blit(tutorial_prompt, (SCREEN_WIDTH // 2 - tutorial_prompt.get_width() // 2, 335))
+
+    # ==================== TUTORIAL SCREEN LOGIC ====================
+    elif game_state == "TUTORIAL":
+        tut_title = title_font.render("HOW TO PLAY & CONTROLS", True, CYAN)
+        screen.blit(tut_title, (SCREEN_WIDTH // 2 - tut_title.get_width() // 2, 40))
+
+        line1 = small_font.render("• Movement: Use [LEFT] and [RIGHT] Arrow Keys", True, WHITE)
+        line2 = small_font.render("• Shooting: Press [SPACEBAR] to fire lasers", True, WHITE)
+        line3 = small_font.render("• Testing Kills: Press [K] to simulate a kill & earn 10 Coins", True, GOLD)
+        line4 = small_font.render("• Balance Check: Get 35 kills every 60s or get POWERED DOWN!", True, RED)
+        line5 = small_font.render("• EMP Stun: Unlocks at 20 kills! Press [E] to freeze enemies for 18s", True, YELLOW)
+        line6 = small_font.render("• Chest Shop: Press [C] in-game to spend coins on Mystery Chests", True, GOLD)
+        line7 = small_font.render("• Rewards: Chests give Speed Boosts, Shooting Range, or Revives!", True, GREEN)
+
+        y_offset = 120
+        for line in [line1, line2, line3, line4, line5, line6, line7]:
+            screen.blit(line, (50, y_offset))
+            y_offset = y_offset + 42
+
+        exit_tut = font.render("Press [ENTER] or [ESC] to Return to Menu", True, CYAN)
+        screen.blit(exit_tut, (SCREEN_WIDTH // 2 - exit_tut.get_width() // 2, 530))
+
+    # ==================== SHOP SCREEN LOGIC ====================
+    elif game_state == "SHOP":
+        shop_title = title_font.render("CHEST SHOP", True, GOLD)
+        screen.blit(shop_title, (SCREEN_WIDTH // 2 - shop_title.get_width() // 2, 100))
+
+        coins_text = font.render(f"Your Coins: {coins} 🪙", True, GOLD)
+        screen.blit(coins_text, (SCREEN_WIDTH // 2 - coins_text.get_width() // 2, 180))
+
+        buy_prompt = font.render("Press [1] to Buy Mystery Chest (Cost: 50 Coins)", True, WHITE)
+        screen.blit(buy_prompt, (SCREEN_WIDTH // 2 - buy_prompt.get_width() // 2, 260))
+
+        inv_title = font.render(f"Current Stats -> Speed: {player_speed} | Range: {bullet_max_range} | Revives: {revives}", True, CYAN)
+        screen.blit(inv_title, (SCREEN_WIDTH // 2 - inv_title.get_width() // 2, 340))
+
+        reward_display = font.render(last_reward_text, True, YELLOW)
+        screen.blit(reward_display, (SCREEN_WIDTH // 2 - reward_display.get_width() // 2, 420))
+
+        exit_prompt = font.render("Press [C] or [ESC] to Return to Game", True, WHITE)
+        screen.blit(exit_prompt, (SCREEN_WIDTH // 2 - exit_prompt.get_width() // 2, 500))
+
+    # ==================== MAIN GAMEPLAY LOGIC ====================
+    elif game_state == "PLAYING":
+        # 60-Second Timer & Balance Check
+        if time_left > 0:
+            time_left -= 1
+        else:
+            kills_in_window = kill_count - kills_at_checkpoint
+            if kills_in_window < 35:
+                is_penalized = True
+                player_speed = max(2, player_speed - 2)
+                bullet_speed = max(5, bullet_speed - 3)
+            else:
+                is_penalized = False
+                
+            time_left = GAME_TIME_LIMIT
+            kills_at_checkpoint = kill_count
+
+        # Update player position
+        player_x += player_x_change
+        if player_x <= 0:
+            player_x = 0
+        elif player_x >= 750:
+            player_x = 750
+
+        # Update alien position (Frozen if EMP is active)
+        if emp_active:
+            emp_timer -= 1
+            if emp_timer <= 0:
+                emp_active = False
+        else:
+            alien_x += alien_x_change
+            if alien_x <= 0:
+                alien_x_change = 3 + power_tier
+                alien_y += 20
+            elif alien_x >= 760:
+                alien_x_change = -(3 + power_tier)
+                alien_y += 20
+
+        # Bullet movement and range limit
+        if bullet_state == "fire":
+            draw_bullet(bullet_x, bullet_y)
+            bullet_y -= bullet_speed
+            if bullet_y <= (520 - bullet_max_range) or bullet_y <= 0:
+                bullet_y = 520
+                bullet_state = "ready"
+
+        # Decrease EMP cooldown
+        if emp_cooldown > 0:
+            emp_cooldown -= 1
+
+        # Simulate a kill & earn coins with 'K' key (for testing)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_k]:
+            kill_count += 1
+            coins += 10
+            alien_x = random.randint(100, 700)
+            alien_y = 50
+            if kill_count % 20 == 0:
+                power_tier += 1
+                if not is_penalized:
+                    player_speed += 2
+                    bullet_speed += 3
+
+        # Draw UI & Stats
+        score_text = font.render(f"Kills: {kill_count} | Coins: {coins}🪙", True, WHITE)
+        screen.blit(score_text, (10, 10))
+
+        seconds_remaining = time_left // 60
+        timer_color = RED if seconds_remaining <= 10 else WHITE
+        timer_text = font.render(f"Time Left: {seconds_remaining}s (Target: 35)", True, timer_color)
+        screen.blit(timer_text, (10, 45))
+
+        if is_penalized:
+            penalty_text = font.render("POWER DOWN! Speed Reduced!", True, RED)
+            screen.blit(penalty_text, (10, 80))
+        elif emp_active:
+            emp_text = font.render(f"EMP ACTIVE! {emp_timer // 60}s", True, CYAN)
+            screen.blit(emp_text, (10, 80))
+        elif kill_count >= 20 and emp_cooldown == 0:
+            emp_text = font.render("Press 'E' for EMP Stun!", True, CYAN)
+            screen.blit(emp_text, (10, 80))
+
+        # --- ON-SCREEN CONTROLS HUD (Bottom Banner) ---
+        controls_hud = tiny_font.render("CONTROLS: [←/→] Move | [SPACE] Shoot | [E] EMP Stun | [C] Chest Shop | [K] Test Kill", True, CYAN)
+        screen.blit(controls_hud, (15, 570))
+
+        # Draw game objects
+        draw_player(player_x, player_y)
+        draw_alien(alien_x, alien_y)
+
+    pygame.display.update()
+    clock.tick(60)
+
+pygame.quit()
