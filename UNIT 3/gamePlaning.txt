@@ -1,0 +1,16 @@
+1. I want to make a game thats based on hide n seek thats including battleground, casual, and
+strategy. This will also include that it wont just be regular hiding seek but with features to make it entertaining.
+The game will have some objectives to complete aswell in the round while hiding from the hider. 
+The game will not just be hiding seek but with different gamemodes that will be apart of special events
+such as maybe a Dead by Daylight mode (DBD).
+
+2. So some gamemodes might have more controls than others, but for now i will tell the main ones for right 
+now because im still working on them, so far the control scheme is for disguising into items/objects you would need to 
+press 'H', and for the movement you would need to press 'W,A,S,D'. For the run button you would need to press 'shift',
+for the power ups you would need to press either 'Z,X,C,V' to use different powersups can buy from the shop. For some other extra controls in the
+other gamemodes are 'P' for crouching and 'T" for sliding.
+
+3. For the main gamemode of my hide n seek game you would to hide until the timer runs out (which when making
+ the hide n seek round the host of the round can change the settings). For one of the gamemodes  you need to complete generators and solve 
+ codes and puzzles to while trying to stay out of the killer's sight. Completing objectives will reward you -15 seconds on the timer to end the round.
+ The killer is allowed to break generators which can reset the progress of objectives. Everytime the killer gets a kill 5+ seconds will be added to the timer.
