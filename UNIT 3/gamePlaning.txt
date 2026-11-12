@@ -14,3 +14,6 @@ other gamemodes are 'P' for crouching and 'T" for sliding.
  the hide n seek round the host of the round can change the settings). For one of the gamemodes  you need to complete generators and solve 
  codes and puzzles to while trying to stay out of the killer's sight. Completing objectives will reward you -15 seconds on the timer to end the round.
  The killer is allowed to break generators which can reset the progress of objectives. Everytime the killer gets a kill 5+ seconds will be added to the timer.
+
+ 4. The primary mechanics for my Hide n Seek game is hiding, completing generators, and finish tasks. 
+ The game rules are simple no camping generators, be respectful, no toxicity, and play fair.
