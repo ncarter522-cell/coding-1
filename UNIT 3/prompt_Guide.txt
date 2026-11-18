@@ -1,0 +1,23 @@
+1. The game i am making will be Hide n Seek but with a mixture of Dead By Daylight, 
+and will be a game that requires you to use your brain, stretegic thinking, and consentrating. 
+The player will be required to escape find puzzles and generators to power the door the killer has set. 
+
+2. The game will indeed have an "welcome screen" that will show ther game title at the top
+ and stuff that's loading at the bottom in the game (A percentage bar 1-100% indicating how much until the 
+ game loads).
+
+ 3. The game objects that will be in game are items from the shop that will help the 
+ survivors, but the survivors are only able to use them 3 times each around with every item being on a 
+ cooldown of 30 to 120 seconds. Other objects that will be in the game are ability perks that grant 
+ you temporary boosts and advantages for the killer/survivors. There will be Generators, Levers, Trees, tables, doors, and etc..
+
+4. The control scheme is for User(S) that help progress inside the game and is one of the functions that helps you to progress, 
+and to be able to do things. you would need to press 'H', and for the movement you would need to press 'W,A,S,D'. For the run button you would 
+need to press 'shift', for the power ups you would need to press either 'Z,X,C,V' to use different powersups can buy from the shop. 
+
+5.The enemy in the game is the killer you or the player is trying to escape and hide from while the enemy/killer is trying to kill you
+and prevent you from escaping. While the killer is trying to kill and get you your trying to escape.
+
+6. If the survivor(S) wins by escaping then the players will earn coins that can help them buy items or abilites from the shop during intermission, 
+but if the killer wins by timer running out or killing everyone then he wins and the game announces it 
+saying "Killer has gotten all players" the game will take you back to lobby.
