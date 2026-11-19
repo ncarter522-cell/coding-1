@@ -15,9 +15,10 @@ The player will be required to escape find puzzles and generators to power the d
 and to be able to do things. you would need to press 'H', and for the movement you would need to press 'W,A,S,D'. For the run button you would 
 need to press 'shift', for the power ups you would need to press either 'Z,X,C,V' to use different powersups can buy from the shop. 
 
-5.The enemy in the game is the killer you or the player is trying to escape and hide from while the enemy/killer is trying to kill you
+5.The enemy in the game is the killer you and the player is trying to escape and hide from while the enemy/killer is trying to kill you
 and prevent you from escaping. While the killer is trying to kill and get you your trying to escape.
 
 6. If the survivor(S) wins by escaping then the players will earn coins that can help them buy items or abilites from the shop during intermission, 
 but if the killer wins by timer running out or killing everyone then he wins and the game announces it 
 saying "Killer has gotten all players" the game will take you back to lobby.
+
